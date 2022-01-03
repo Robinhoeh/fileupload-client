@@ -1,6 +1,15 @@
 <template>
   <div class="container" id="app">
-    <Uploader></Uploader>
+    <Uploader
+      :options="{
+        baseURL: 'hey.com',
+      }"
+      :endpoint="{
+        'video/mp4': {
+          endpoint: 'uploads/video',
+        },
+      }"
+    />
   </div>
 </template>
 

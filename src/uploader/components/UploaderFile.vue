@@ -26,6 +26,18 @@ export default {
       type: Object,
       required: true,
     },
+    baseURL: {
+      type: String,
+      required: true,
+    },
+    endpoint: {
+      type: String,
+      required: true,
+    },
+  },
+  mounted() {
+    console.log(this.baseURL);
+    console.log(this.endpoint);
   },
   computed: {
     sizeDisplay() {
