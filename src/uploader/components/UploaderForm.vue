@@ -1,8 +1,11 @@
 <template>
   <form
+    @dragover.prevent="handleDragOver"
+    @dragleave.prevent="handleDragLeave"
     enctype="multipart/form-data"
     novalidate
     class="tw-bg-gray-200 tw-border-gray-400 tw-border-2 tw-border-dashed tw-rounded-lg tw-p-10 tw-flex tw-items-center tw-justify-center tw-mb-6 tw-relative"
+    :class="{'tw-border-gray-600': isDragging}"
   >
     <input
       @change="handleFileChosen"
@@ -18,9 +21,20 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isDragging: false,
+    };
+  },
   methods: {
     handleFileChosen(e) {
       this.$emit("chosen", e.target.files);
+    },
+    handleDragOver() {
+      this.isDragging = true;
+    },
+    handleDragLeave() {
+      this.isDragging = false;
     },
   },
 };
