@@ -10,7 +10,9 @@
         ></div>
         {{ upload.file.name }}
       </div>
-      <div class="tw-text-gray-600 tw-text-sm tw-leading-tight">mb size</div>
+      <div class="tw-text-gray-600 tw-text-sm tw-leading-tight">
+        {{ sizeDisplay }} MB
+      </div>
 
       <div class="tw-text-gray-600 tw-text-sm tw-align-baseline">Cancelled</div>
     </div>
@@ -23,6 +25,11 @@ export default {
     upload: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    sizeDisplay() {
+      return (this.upload.file.size / 10000000).toFixed(2);
     },
   },
 };
