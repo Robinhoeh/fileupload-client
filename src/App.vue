@@ -1,11 +1,15 @@
 <template>
-  <div class="container" id="app">Home</div>
+  <div class="container" id="app">
+    <Uploader></Uploader>
+  </div>
 </template>
 
 <script>
+import Uploader from "@/uploader/components/Uploader";
+
 export default {
   name: "App",
-  components: {},
+  components: {Uploader},
 };
 </script>
 
