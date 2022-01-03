@@ -13,9 +13,17 @@
       multiple
       class="tw-absolute tw-opacity-0 tw-w-full tw-h-full tw-top-0 tw-left-0"
     />
-    <div class="tw-text-gray-700">
-      Drop her to upload or <span class="tw-text-blue-500">Choose files</span>
-    </div>
+    <template v-if="isDragging">
+      <div class="tw-text-gray-700">
+        Nearly there. Let go to upload
+        <span class="tw-font-medium">{{ draggingCount }} items!</span>
+      </div>
+    </template>
+    <template v-else>
+      <div class="tw-text-gray-700">
+        Drop her to upload or <span class="tw-text-blue-500">Choose files</span>
+      </div>
+    </template>
   </form>
 </template>
 
@@ -24,17 +32,21 @@ export default {
   data() {
     return {
       isDragging: false,
+      draggingCount: 0,
     };
   },
   methods: {
     handleFilesChosen(e) {
       this.$emit("chosen", e.target.files);
+      this.isDragging = false;
     },
-    handleDragOver() {
+    handleDragOver(e) {
       this.isDragging = true;
+      this.draggingCount = e.dataTransfer.items.length;
     },
     handleDragLeave() {
       this.isDragging = false;
+      this.draggingCount = 0;
     },
   },
 };
