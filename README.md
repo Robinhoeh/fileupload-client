@@ -1,24 +1,10 @@
 # fileupload
 
-## Project setup
-```
-npm install
-```
+- This is part of a codecourse codealong that walks you through a Drag and Drop feature
+- I wanted to add to my existing [File upload component in Nuxt.js](https://github.com/Robinhoeh/image-upload) so I thought I would do a guided approach to see what I could add
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Tech stack
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Tailwind
+- Vue
+- Laravel
