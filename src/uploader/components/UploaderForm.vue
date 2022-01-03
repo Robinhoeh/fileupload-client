@@ -8,7 +8,7 @@
     :class="{'tw-border-gray-600': isDragging}"
   >
     <input
-      @change="handleFileChosen"
+      @change="handleFilesChosen"
       type="file"
       multiple
       class="tw-absolute tw-opacity-0 tw-w-full tw-h-full tw-top-0 tw-left-0"
@@ -27,7 +27,7 @@ export default {
     };
   },
   methods: {
-    handleFileChosen(e) {
+    handleFilesChosen(e) {
       this.$emit("chosen", e.target.files);
     },
     handleDragOver() {
