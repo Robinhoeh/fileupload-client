@@ -1,9 +1,22 @@
 <template>
-  <div>Uploader</div>
+  <div>
+    <UploaderForm @chosen="handleFilesChosen" />
+  </div>
 </template>
 
 <script>
-export default {};
+import UploaderForm from "./UploaderForm";
+
+export default {
+  components: {
+    UploaderForm,
+  },
+  methods: {
+    handleFilesChosen(files) {
+      console.log(files);
+    },
+  },
+};
 </script>
 
 <style></style>
