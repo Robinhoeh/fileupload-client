@@ -2,7 +2,7 @@
   <div class="container" id="app">
     <Uploader
       :options="{
-        baseURL: 'hey.com',
+        baseURL: 'http://vue-uploader.test:8000/api',
       }"
       :handlers="{
         // The format of the format comes from the file Object
