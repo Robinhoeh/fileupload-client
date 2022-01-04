@@ -4,7 +4,7 @@
       :options="{
         baseURL: 'hey.com',
       }"
-      :endpoint="{
+      :handlers="{
         'video/mp4': {
           endpoint: 'uploads/video',
         },
