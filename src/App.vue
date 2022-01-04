@@ -5,6 +5,8 @@
         baseURL: 'hey.com',
       }"
       :handlers="{
+        // The format of the format comes from the file Object
+        // the endpoint set below has to correspond with the POST endpoint
         'video/mp4': {
           endpoint: 'uploads/video',
         },
