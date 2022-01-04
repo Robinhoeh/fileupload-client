@@ -2,7 +2,7 @@
   <div
     class="tw-bg-white tw-rounded-lg tw-p-4 tw-flex tw-items-stretch tw-mb-1"
   >
-    <div>{{ progress }}</div>
+    <div><UploaderProgress :progress="progress" /></div>
     <div class="tw-flex tw-flex-col tw-justify-between">
       <div class="tw-mb-2">
         <div
@@ -31,10 +31,15 @@
 </template>
 
 <script>
+// Update this structure - this component is now dependant on another component :(
+import UploaderProgress from "./UploaderProgress";
 import states from "@/uploader/states";
 import axios from "axios";
 
 export default {
+  components: {
+    UploaderProgress,
+  },
   data() {
     return {
       state: null,
