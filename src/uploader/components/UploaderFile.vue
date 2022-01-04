@@ -21,6 +21,9 @@
         <template v-if="state === states.UNSUPPORTED"
           >Sorry, this file type is unsupported</template
         >
+        <a href="" class="tw-text-blue-500" @click.prevent="handleCancel"
+          >Cancel</a
+        >
         <template v-if="state === states.UPLOADING">Uploading</template>
       </div>
     </div>
@@ -36,6 +39,9 @@ export default {
     return {
       state: null,
       progress: 0,
+      axios: {
+        cancel: null,
+      },
       states,
     };
   },
@@ -60,6 +66,9 @@ export default {
     },
   },
   methods: {
+    handleCancel() {
+      this.axios.cancel();
+    },
     makeFormData(file) {
       //prep data
       const form = new FormData();
@@ -79,12 +88,21 @@ export default {
         .post(this.endpoint, this.makeFormData(this.upload.file), {
           baseURL: this.baseURL,
           onUploadProgress: this.handleUploadProgress,
+          //Cancel token axios
+          cancelToken: new axios.CancelToken((token) => {
+            this.axios.cancel = token;
+          }),
         })
         .then(() => {
           this.state = states.COMPLETED;
         })
         .catch((e) => {
           console.error(e);
+          // Check for existence of Cancel Object from axios
+          if (e instanceof axios.Cancel) {
+            return (this.state = states.CANCELLED);
+          }
+
           this.state = states.FAILED;
         });
     },
