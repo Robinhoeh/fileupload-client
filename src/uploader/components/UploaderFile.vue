@@ -2,7 +2,7 @@
   <div
     class="tw-bg-white tw-rounded-lg tw-p-4 tw-flex tw-items-stretch tw-mb-1"
   >
-    <div>Progress</div>
+    <div>{{ progress }}</div>
     <div class="tw-flex tw-flex-col tw-justify-between">
       <div class="tw-mb-2">
         <div
@@ -16,6 +16,8 @@
 
       <div class="tw-text-gray-600 tw-text-sm tw-align-baseline">
         <template v-if="state === states.WAITING">Waiting</template>
+        <template v-if="state === states.COMPLETED">Complete</template>
+        <template v-if="state === states.FAILED">Failed</template>
         <template v-if="state === states.UNSUPPORTED"
           >Sorry, this file type is unsupported</template
         >
@@ -33,6 +35,7 @@ export default {
   data() {
     return {
       state: null,
+      progress: 0,
       states,
     };
   },
@@ -65,12 +68,25 @@ export default {
       console.log(form);
       return form;
     },
+    handleUploadProgress(e) {
+      console.log(e);
+      this.progress = Math.round((e.loaded * 100) / e.total);
+    },
     startUpload() {
       this.state = states.UPLOADING;
 
-      axios.post(this.endpoint, this.makeFormData(this.upload.file), {
-        baseURL: this.baseURL,
-      });
+      axios
+        .post(this.endpoint, this.makeFormData(this.upload.file), {
+          baseURL: this.baseURL,
+          onUploadProgress: this.handleUploadProgress,
+        })
+        .then(() => {
+          this.state = states.COMPLETED;
+        })
+        .catch((e) => {
+          console.error(e);
+          this.state = states.FAILED;
+        });
     },
   },
   mounted() {
