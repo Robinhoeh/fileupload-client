@@ -4,7 +4,7 @@
     <UploaderFile
       v-for="(upload, i) in uploads"
       :key="i"
-      endpoint="abc"
+      :endpoint="determineEndpointFor(upload.file.type)"
       :upload="upload"
       :baseURL="options.baseURL"
     />
@@ -15,6 +15,7 @@
 import UploaderForm from "./UploaderForm";
 import UploaderFile from "./UploaderFile";
 import options from "@/uploader/options";
+import get from "lodash.get";
 
 export default {
   components: {
@@ -27,7 +28,7 @@ export default {
       type: Object,
       default: () => options,
     },
-    endpoint: {
+    handlers: {
       required: true,
       type: Object,
     },
@@ -38,6 +39,9 @@ export default {
     };
   },
   methods: {
+    determineEndpointFor(fileType) {
+      return get(this.handlers[fileType], "endpoint", null);
+    },
     handleFilesChosen(files) {
       console.log(files);
       this.uploads.push(

@@ -31,8 +31,9 @@ export default {
       required: true,
     },
     endpoint: {
-      type: String,
       required: true,
+      //Removed the type check
+      //TODO:  add some sort of feedback for non supported files
     },
   },
   mounted() {
