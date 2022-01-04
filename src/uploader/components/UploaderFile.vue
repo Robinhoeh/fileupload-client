@@ -19,6 +19,7 @@
         <template v-if="state === states.UNSUPPORTED"
           >Sorry, this file type is unsupported</template
         >
+        <template v-if="state === states.UPLOADING">Uploading</template>
       </div>
     </div>
   </div>
@@ -26,6 +27,7 @@
 
 <script>
 import states from "@/uploader/states";
+import axios from "axios";
 
 export default {
   data() {
@@ -54,11 +56,30 @@ export default {
       return (this.upload.file.size / 10000000).toFixed(2);
     },
   },
+  methods: {
+    makeFormData(file) {
+      //prep data
+      const form = new FormData();
+      form.append("file", file, file.name);
+
+      console.log(form);
+      return form;
+    },
+    startUpload() {
+      this.state = states.UPLOADING;
+
+      axios.post(this.endpoint, this.makeFormData(this.upload.file), {
+        baseURL: this.baseURL,
+      });
+    },
+  },
   mounted() {
     if (this.endpoint === null) {
       return (this.state = states.UNSUPPORTED);
     }
     this.state = states.WAITING;
+
+    this.startUpload();
   },
 };
 </script>
