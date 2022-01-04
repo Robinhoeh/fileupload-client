@@ -43,7 +43,6 @@ export default {
       return get(this.handlers[fileType], "endpoint", null);
     },
     handleFilesChosen(files) {
-      console.log(files);
       this.uploads.push(
         ...Array.from(files).map((file) => {
           return {file};
