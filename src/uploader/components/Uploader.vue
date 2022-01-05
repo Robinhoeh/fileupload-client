@@ -1,7 +1,6 @@
 <template>
   <div>
     {{ overallProgress }}
-    {{ uploads }}
     <UploaderForm @chosen="handleFilesChosen" />
     <UploaderFile
       v-for="(upload, i) in uploads"
@@ -46,8 +45,11 @@ export default {
   },
   computed: {
     overallProgress() {
+      if (this.uploads.length === 0) return 0;
+
+      let uploads = this.uploads.filter((upload) => !upload.cancelled);
       return parseInt(
-        this.uploads.reduce((a, b) => a + b.progress, 0) / this.uploads.length
+        uploads.reduce((a, b) => a + b.progress, 0) / uploads.length
       );
     },
   },
