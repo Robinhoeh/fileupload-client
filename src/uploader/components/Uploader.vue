@@ -52,6 +52,7 @@ export default {
     };
   },
   computed: {
+    // can these be more DRY?
     currentUploadCount() {
       return this.uploads.filter((upload) => upload.uploading).length;
     },
@@ -61,7 +62,12 @@ export default {
     overallProgress() {
       if (this.uploads.length === 0) return 0;
 
-      let uploads = this.uploads.filter((upload) => !upload.cancelled);
+      let uploads = this.uploads.filter(
+        (upload) => !upload.cancelled && !upload.failed
+      );
+
+      if (uploads.length === 0) return 0;
+
       return parseInt(
         uploads.reduce((a, b) => a + b.progress, 0) / uploads.length
       );
@@ -82,6 +88,7 @@ export default {
             uploading: false,
             complete: false,
             cancelled: false,
+            failed: false,
             file,
           };
         })
@@ -102,6 +109,15 @@ export default {
           this.uploads = this.uploads.map((upload) => {
             if (e.id === upload.id) {
               upload.uploading = true;
+            }
+            return upload;
+          });
+          break;
+        case states.FAILED:
+          this.uploads = this.uploads.map((upload) => {
+            if (e.id === upload.id) {
+              upload.failed = true;
+              upload.uploading = false;
             }
             return upload;
           });
