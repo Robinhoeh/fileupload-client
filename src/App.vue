@@ -3,6 +3,7 @@
     <Uploader
       :options="{
         baseURL: 'https://jsonplaceholder.typicode.com/posts',
+        maxConcurrentUploads: 2,
       }"
       :handlers="{
         // The format of the format comes from the file Object
