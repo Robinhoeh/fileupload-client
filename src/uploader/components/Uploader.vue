@@ -1,7 +1,15 @@
 <template>
   <div>
-    {{ overallProgress }}
     <UploaderForm @chosen="handleFilesChosen" />
+    <div
+      class="tw-mb-4 tw-flex tw-justify-between tw-px-4 tw-text-gray-600 tw-text-sm"
+    >
+      <span
+        >{{ this.uploads.length }} uploads ({{ currentUploadCount }} in progress
+        / {{ currentUploadCount }} complete)</span
+      >
+      <span> {{ overallProgress }} % complete </span>
+    </div>
     <UploaderFile
       v-for="(upload, i) in uploads"
       :key="i"
@@ -44,6 +52,12 @@ export default {
     };
   },
   computed: {
+    currentUploadCount() {
+      return this.uploads.filter((upload) => upload.uploading).length;
+    },
+    completedUploadCount() {
+      return this.uploads.filter((upload) => upload.complete).length;
+    },
     overallProgress() {
       if (this.uploads.length === 0) return 0;
 
