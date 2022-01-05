@@ -89,6 +89,7 @@ export default {
             complete: false,
             cancelled: false,
             failed: false,
+            queuded: true,
             file,
           };
         })
@@ -142,6 +143,20 @@ export default {
           break;
       }
     },
+  },
+  mounted() {
+    setInterval(() => {
+      if (this.currentUploadCount >= this.options.maxConcurrentUploads) {
+        return;
+      }
+
+      let queuded = this.uploads.filter((upload) => upload.queuded === true);
+      console.log(queuded);
+
+      if (queuded.length) {
+        queuded[0].queuded = false;
+      }
+    }, 500);
   },
 };
 </script>
