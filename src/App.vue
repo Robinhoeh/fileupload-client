@@ -2,7 +2,7 @@
   <div class="container" id="app">
     <Uploader
       :options="{
-        baseURL: 'http://vue-uploader.test:8000/api',
+        baseURL: 'https://jsonplaceholder.typicode.com/posts',
       }"
       :handlers="{
         // The format of the format comes from the file Object
