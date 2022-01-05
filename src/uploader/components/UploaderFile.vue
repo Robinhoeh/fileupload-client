@@ -16,7 +16,7 @@
 
       <div class="tw-text-gray-600 tw-text-sm tw-align-baseline">
         <template v-if="state === states.WAITING">Waiting</template>
-        <template v-if="state === states.COMPLETED">Complete</template>
+        <template v-if="state === states.COMPLETE">Complete</template>
         <template v-if="state === states.FAILED">Failed</template>
         <template v-if="state === states.UNSUPPORTED"
           >Sorry, this file type is unsupported</template
@@ -70,6 +70,26 @@ export default {
       return (this.upload.file.size / 10000000).toFixed(2);
     },
   },
+  watch: {
+    progress(progress) {
+      this.$emit("progress", {
+        id: this.upload.id,
+        progress,
+      });
+    },
+    state(state) {
+      this.$emit("change", {
+        id: this.upload.id,
+        state,
+      });
+      switch (state) {
+        case states.CANCELLED:
+        case states.FAILED:
+          this.progress = 0;
+          break;
+      }
+    },
+  },
   methods: {
     handleCancel() {
       this.axios.cancel();
@@ -83,7 +103,6 @@ export default {
       return form;
     },
     handleUploadProgress(e) {
-      console.log(e);
       this.progress = Math.round((e.loaded * 100) / e.total);
     },
     startUpload() {
@@ -99,7 +118,7 @@ export default {
           }),
         })
         .then(() => {
-          this.state = states.COMPLETED;
+          this.state = states.COMPLETE;
         })
         .catch((e) => {
           console.error(e);
