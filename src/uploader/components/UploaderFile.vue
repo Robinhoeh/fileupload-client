@@ -71,6 +71,14 @@ export default {
     },
   },
   watch: {
+    "upload.queuded"(queuded) {
+      if (this.state === states.UNSUPPORTED) {
+        return;
+      }
+      if (queuded === false) {
+        this.startUpload();
+      }
+    },
     progress(progress) {
       this.$emit("progress", {
         id: this.upload.id,
@@ -136,8 +144,6 @@ export default {
       return (this.state = states.UNSUPPORTED);
     }
     this.state = states.WAITING;
-
-    this.startUpload();
   },
 };
 </script>
