@@ -151,7 +151,6 @@ export default {
       }
 
       let queuded = this.uploads.filter((upload) => upload.queuded === true);
-      console.log(queuded);
 
       if (queuded.length) {
         queuded[0].queuded = false;
